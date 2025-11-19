@@ -20,6 +20,17 @@ resource "aws_security_group" "vince_sec_groups" {
 }
 
 # -------------------------------------------------------------------
+# Egress Rules: Allow all outbound
+# -------------------------------------------------------------------
+
+resource "aws_vpc_security_group_ingress_rule" "allow_all_traffic_ipv4" {
+  security_group_id = aws_security_group.vince_sec_groups.id
+  cidr_ipv4         = "0.0.0.0/0"
+
+  ip_protocol = "-1" # semantically equivalent to all ports
+}
+
+# -------------------------------------------------------------------
 # Ingress Rules: Allow HTTP (80) and HTTPS (443) inbound
 # -------------------------------------------------------------------
 
@@ -34,11 +45,24 @@ resource "aws_vpc_security_group_ingress_rule" "ingress_http" {
 }
 
 # Ingress for HTTPS (port 443) from anywhere
-resource "aws_vpc_security_group_ingress_rule" "ingress_https" {
+# resource "aws_vpc_security_group_ingress_rule" "ingress_https" {
+#   security_group_id = aws_security_group.vince_sec_groups.id
+#   cidr_ipv4         = "0.0.0.0/0"
+
+#   ip_protocol = "tcp"
+#   from_port   = 443
+#   to_port     = 443
+# }
+
+# -------------------------------------------------------------------
+# Ingress Rules: Allow port 22 inbound
+# -------------------------------------------------------------------
+
+resource "aws_vpc_security_group_ingress_rule" "ingress_port22" {
   security_group_id = aws_security_group.vince_sec_groups.id
   cidr_ipv4         = "0.0.0.0/0"
 
   ip_protocol = "tcp"
-  from_port   = 443
-  to_port     = 443
+  from_port   = 22
+  to_port     = 22
 }
