@@ -11,7 +11,7 @@ variable "machine_size" {
 
 variable "vm_name" {
   type = string
-  # default = "vince-vm-day2"
+  # default = "vince-vm-day"
 }
 
 variable "my_asw_region" {
